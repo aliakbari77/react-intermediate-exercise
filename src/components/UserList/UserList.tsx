@@ -1,10 +1,16 @@
 import { useState } from "react";
 import useUsers from "../../hooks/useUsers";
+import React from "react";
 
 const UserList = () => {
   const pageSize = 5;
-  const [page, setPage] = useState(1);
-  const { data: users, isLoading, error } = useUsers({ pageSize, page });
+  const {
+    data: users,
+    isLoading,
+    error,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useUsers({ pageSize });
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -13,25 +19,22 @@ const UserList = () => {
   return (
     <>
       <ul className="list-group">
-        {users?.map((user) => (
-          <li className="list-group-item" key={user.id}>
-            {user.name}
-          </li>
+        {users.pages.map((userPage) => (
+          <React.Fragment>
+            {userPage.map((user) => (
+              <li className="list-group-item" key={user.id}>
+                {user.name}
+              </li>
+            ))}
+          </React.Fragment>
         ))}
       </ul>
       <button
         className="btn btn-primary my-3"
-        disabled={page === 1}
-        onClick={() => setPage(page - 1)}
+        disabled={isFetchingNextPage}
+        onClick={() => fetchNextPage()}
       >
-        Previous
-      </button>
-      <button
-        className="btn btn-primary my-3 ms-2"
-        onClick={() => setPage(page + 1)}
-        disabled={users.length < pageSize}
-      >
-        Next
+        {isFetchingNextPage ? "Loading..." : "Load More"}
       </button>
     </>
   );
