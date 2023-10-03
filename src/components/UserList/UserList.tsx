@@ -19,8 +19,8 @@ const UserList = () => {
   return (
     <>
       <ul className="list-group">
-        {users.pages.map((userPage) => (
-          <React.Fragment>
+        {users.pages.map((userPage, index) => (
+          <React.Fragment key={index}>
             {userPage.map((user) => (
               <li className="list-group-item" key={user.id}>
                 {user.name}
