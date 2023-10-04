@@ -3,11 +3,11 @@ import axios from "axios";
 import Post from "../components/PostList/Post.interface";
 
 interface PostQuery {
-	pageSize: 10;
+	pageSize: number;
 }
 
 const usePosts = (query: PostQuery) =>
-	useInfiniteQuery({
+	useInfiniteQuery<Post[], Error>({
 		queryKey: ["posts", query],
 		queryFn: ({ pageParam }) =>
 			axios
