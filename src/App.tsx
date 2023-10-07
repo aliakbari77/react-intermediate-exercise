@@ -1,13 +1,12 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
-import UserList from "./components/UserList/UserList";
-import PostList from "./components/PostList/PostList";
+import AlbumForm from "./components/AlbumList/AlbumForm";
+import AlbumList from "./components/AlbumList/AlbumList";
 
 function App() {
 	return (
 		<>
-			<PostList />
+			<AlbumForm />
+			<AlbumList />
 		</>
 	);
 }
