@@ -2,44 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useRef } from "react";
 import Album from "./Album.interface";
-
-interface AddAlbumContext {
-	previousAlbum: Album[];
-}
+import useAddAlbum from "../../hooks/useAddAlbum";
 
 const AlbumForm = () => {
 	const ref = useRef<HTMLInputElement>(null);
 
-	const queryClient = useQueryClient();
-
-	const addAlbum = useMutation<Album, Error, Album, AddAlbumContext>({
-		mutationFn: (newAlbum: Album) =>
-			axios
-				.post<Album>("https://jsonplaceholder.typicode.com/albums", newAlbum)
-				.then((res) => res.data),
-
-		onMutate: (newAlbum: Album) => {
-			const previousData = queryClient.getQueryData(["albums"]) || [];
-
-			queryClient.setQueryData<Album[]>(["albums"], (albums = []) => [
-				newAlbum,
-				...albums,
-			]);
-
-			return { previousData };
-		},
-		onSuccess: (savedAlbum: Album, newAlbum: Album) => {
-			queryClient.setQueryData<Album[]>(["albums"], (albums = []) =>
-				albums.map((album) => (album === newAlbum ? savedAlbum : album))
-			);
-		},
-		onError: (error: Error, newAlbum: Album, context: AddAlbumContext) => {
-			queryClient.setQueryData<Album[]>(
-				["albums"],
-				() => context.previousAlbum
-			);
-		},
-	});
+	const addAlbum = useAddAlbum(() => {
+		if (ref.current) ref.current.value = ""
+	})
 
 	return (
 		<>
