@@ -1,14 +1,12 @@
 import "./App.css";
-import AlbumForm from "./components/AlbumList/AlbumForm";
-import AlbumList from "./components/AlbumList/AlbumList";
+import Login from "./components/Authentication/components/Login";
 
 function App() {
-	return (
-		<>
-			<AlbumForm />
-			<AlbumList />
-		</>
-	);
+  return (
+    <>
+        <Login />
+    </>
+  );
 }
 
 export default App;
