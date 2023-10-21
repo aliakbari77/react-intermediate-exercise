@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
+import TaskList from "./TaskList";
+import useAuth from "../hooks/useAuth";
 
 const Home = () => {
-//   const { user, dispatch } = useContext(AuthContext);
-//   if (user.userName) return <h1>Data</h1>;
-  return;
+  const { user, dispatch } = useAuth();
+
+  if (user.userName) return <TaskList />;
+
+  return <h1>No data</h1>;
 };
 
 export default Home;
